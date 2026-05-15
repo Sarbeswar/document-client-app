@@ -23,7 +23,7 @@ export class DashboardComponent {
     const start = this.pageIndex() * this.pageSize();
     return rows.slice(start, start + this.pageSize());
   });
-  constructor(private readonly dashboard: DashboardService) { this.load(); }
-  load(): void { this.loading.set(true); this.dashboard.getDashboard().subscribe({ next: (data) => this.data.set(data), error: () => this.loading.set(false), complete: () => this.loading.set(false) }); }
+  constructor(private readonly dashboardService: DashboardService) { this.load(); }
+  load(): void { this.loading.set(true); this.dashboardService.getDashboard().subscribe({ next: (data) => this.data.set(data), error: () => this.loading.set(false), complete: () => this.loading.set(false) }); }
   page(event: PageEvent): void { this.pageIndex.set(event.pageIndex); this.pageSize.set(event.pageSize); }
 }
