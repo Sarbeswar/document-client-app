@@ -1,0 +1,16 @@
+<header class="page-header"><h1>Upload Document</h1><p>Submit metadata and large files to /gateway/documents/upload for asynchronous Saga orchestration.</p></header>
+<mat-card>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div appDropZone (fileDropped)="setFile($event)" class="drop-zone"><mat-icon>cloud_upload</mat-icon><h2>Drag and drop a file</h2><p>or choose a file from your workstation.</p><input type="file" (change)="fileSelected($event)"></div>
+    @if (file(); as selected) { <div class="file-row"><mat-icon>description</mat-icon><span>{{ selected.name }}</span><strong>{{ selected.size | fileSize }}</strong></div> }
+    <section class="form-grid">
+      <mat-form-field appearance="outline"><mat-label>Document type</mat-label><mat-select formControlName="documentType"><mat-option value="Invoice">Invoice</mat-option><mat-option value="Policy">Policy</mat-option><mat-option value="Claim">Claim</mat-option></mat-select></mat-form-field>
+      <mat-form-field appearance="outline"><mat-label>Business unit</mat-label><input matInput formControlName="businessUnit"></mat-form-field>
+      <mat-form-field appearance="outline"><mat-label>Classification</mat-label><mat-select formControlName="classification"><mat-option value="Public">Public</mat-option><mat-option value="Internal">Internal</mat-option><mat-option value="Confidential">Confidential</mat-option></mat-select></mat-form-field>
+      <mat-form-field appearance="outline"><mat-label>Retention code</mat-label><input matInput formControlName="retentionCode"></mat-form-field>
+      <mat-form-field appearance="outline" class="full"><mat-label>Description</mat-label><textarea matInput rows="4" formControlName="description"></textarea></mat-form-field>
+    </section>
+    @if (uploading()) { <mat-progress-bar mode="determinate" [value]="progress()" /> <p>{{ progress() }}% uploaded</p> }
+    <button mat-flat-button color="primary" type="submit" [disabled]="!canSubmit()"><mat-icon>send</mat-icon>Submit workflow request</button>
+  </form>
+</mat-card>

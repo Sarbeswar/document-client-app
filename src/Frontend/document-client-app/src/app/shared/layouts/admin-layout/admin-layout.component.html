@@ -1,0 +1,22 @@
+<div class="shell" [class.dark]="darkMode()">
+  <mat-toolbar class="topbar">
+    <button mat-icon-button (click)="drawer.toggle()" aria-label="Toggle navigation"><mat-icon>menu</mat-icon></button>
+    <span class="brand">ICMP Document Client</span>
+    <span class="spacer"></span>
+    <button mat-icon-button routerLink="/notifications" aria-label="Notifications"><mat-icon [matBadge]="unreadCount()" [matBadgeHidden]="unreadCount() === 0" matBadgeColor="warn">notifications</mat-icon></button>
+    <button mat-icon-button (click)="toggleTheme()" aria-label="Toggle theme"><mat-icon>{{ darkMode() ? 'light_mode' : 'dark_mode' }}</mat-icon></button>
+    <span class="user">{{ auth.user()?.displayName || auth.user()?.username }}</span>
+    <button mat-stroked-button (click)="logout()"><mat-icon>logout</mat-icon> Logout</button>
+  </mat-toolbar>
+
+  <mat-sidenav-container>
+    <mat-sidenav #drawer mode="side" opened>
+      <mat-nav-list>
+        @for (item of nav; track item.path) {
+          <a mat-list-item [routerLink]="item.path" routerLinkActive="active"><mat-icon matListItemIcon>{{ item.icon }}</mat-icon><span matListItemTitle>{{ item.label }}</span></a>
+        }
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content><main><router-outlet /></main></mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
